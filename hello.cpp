@@ -1,6 +1,8 @@
-#include
-#include
-#include
+#include <iostream>
+#include <conio.h>
+#include <string>
+#include <string>
+#include <vector>
 
 class student {
 public:
@@ -10,11 +12,16 @@ public:
     std::string Email;
     int age;
 
+    student() {}
+
+    student (std::string lname, std::string fname, std::string oname, int age, std::string email)
+    : Lname(lname), Fname(fname), Oname(oname),age(age), Email(email) {}
+
 };
 
 //student students[100];
 int main() {
-
+    std::vector<student> students;
     student p;
     int choice;
     int choice2;
@@ -35,49 +42,76 @@ int main() {
 
         std::cin >> n;
 
-        student students[n];
+
 
         for (int i = 0; i < n; i++) {
+            std::string lname, fname, oname, email;
+            int age;
             std::cout << "Enter Lname" << i + 1 << ": ";
-            std::cin >> students[i].Lname;
+            std::cin >> lname;
             std::cout << "Enter Fname" << i + 1 << ": ";
-            std::cin >> students[i].Fname;
+            std::cin >> fname;
             std::cout << "Enter Oname" << i + 1 << ": ";
-            std::cin >> students[i].Oname;
+            std::cin >> oname;
             std::cout << "Enter age" << i + 1 << ": ";
-            std::cin >> students[i].age;
+            std::cin >> age;
             std::cout << "Enter Email" << i + 1 << ": ";
-            std::cin >> students[i].Email;
+            std::cin >> email;
+
+            student p(lname, fname, oname, age, email);
+            students.push_back(p);
         }
 
-
-        std::cout << "List student is\n";
-        for (int i = 0; i < n; i++) {
-
+        std::cout << "List student is:\n";
+        for (int i = 0; i < students.size(); i++) {
             student p = students[i];
             if (p.age >= 16 && p.age <= 70) {
-                std::cout << p.Lname << ", " << p.Fname << ": " << students[i].Oname << ": " ", " << p.age << ": "
-                          << students[i].Email << "\n";
+                std::cout << p.Lname << ", " << p.Fname << ": " << p.Oname << ", " << p.age << ", " << p.Email
+                          << "\n";
             } else {
-                std::cout << students[i].Lname << ", " << students[i].Fname << ", " << students[i].Oname << ": "
-                          << p.age << "No" << students[i].Email << "\n"; // тут надо будет удалить
+                std::cout << p.Lname << ", " << p.Fname << ": " << p.Oname << ", " << p.age << ", "
+                          << "No" << p.Email << "\n";
             }
-            std::cout << "Welcome to the c++ menu! To select, choose what you want"
-                         "\n "
-                         "\n 2) adding students"
-                         "\n 3) editing students"
-                         "\n 4) deleting a student\n";
-            std::cin >> choice;
+        }
+    } else if (choice == 2) {
+        std::cout << "Enter the number of students to add:\n";
+        std::cin >> n;
 
-            if(choice == 2){
-                std::cout << "Hola";
-                student *students = new student[size];
+        for (int i = 0; i < n; i++) {
+            std::string lname, fname, oname, email;
+            int age;
+
+            std::cout << "Enter Lname: ";
+            std::cin >> lname;
+            std::cout << "Enter Fname: ";
+            std::cin >> fname;
+            std::cout << "Enter Oname: ";
+            std::cin >> oname;
+            std::cout << "Enter age: ";
+            std::cin >> age;
+            std::cout << "Enter Email: ";
+            std::cin >> email;
+
+            student p = student(lname, fname, oname, age, email);
+            students.push_back(p);
+        }
+
+        std::cout << "List student is:\n";
+        for (int i = 0; i < students.size(); i++) {
+            student p = students[i];
+            if (p.age >= 16 && p.age <= 70) {
+                std::cout << p.Lname << ", " << p.Fname << ": " << p.Oname << ", " << p.age << ", " << p.Email
+                          << "\n";
+            } else {
+                std::cout << p.Lname << ", " << p.Fname << ": " << p.Oname << ", " << p.age << ", "
+                          << "No" << p.Email << "\n";
             }
-
         }
     }
-
 }
+
+
+
 
 
 
