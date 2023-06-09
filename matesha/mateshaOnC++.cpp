@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <math.h>
 
 //class Coordinates {
 //public:
@@ -67,6 +68,9 @@ int main() {
 //    y4 = y1 + y3 - y2;
 //    std::cout << "Your answer:\t" << x4 << ", " << y4;
 
+
+
+
     return 0;
 }
 
@@ -86,15 +90,55 @@ int mai(){
     std::cout << "Task 2!\n";
     std::cout << "put coordinate:\n";
     std::cin >>  x11 >> y11;
-    std::cout << "Your coordinate 1 id:\t";
+    std::cout << "Your coordinate 1 is:\t";
     std::cout << "(" << x11 << "," << y11 << ")\n";
     std::cin >>  x22 >> y22;
-    std::cout << "Your coordinate 2 id:\t";
+    std::cout << "Your coordinate 2 is:\t";
     std::cout << "(" << x22 << "," << y22 << ")\n";
     std::cin >>  x33 >> y33;
-    std::cout << "Your coordinate 3 id:\t";
+    std::cout << "Your coordinate 3 is:\t";
     std::cout << "(" << x33 << "," << y33 << ")\n";
     std::cin  >> x44 >> y44;
-    std::cout << "Your coordinate 4 id:\t";
+    std::cout << "Your coordinate 4 is:\t";
     std::cout << "(" << x44 << "," << y44 << ")\n";
+
+    double formulaX = (x11 + x22 + x33 + x44) / 4;
+    double formulaY = (y11 + y22 + y33 + y44) / 4;
+    std::cout << "Your answer is:" << "(" << formulaX << "," << formulaY << ")" << std::endl;
+}
+
+
+int ma() {
+    double x111;
+    double x222;
+    double x333;
+    double x444;
+    //---------
+    double y111;
+    double y222;
+    double y333;
+    double y444;
+    std::cout << "Put coordinates of point A:\n";
+    std::cin >> x111 >> y111;
+    std::cout << "Your coordinate 1 is:\t";
+    std::cout << "(" << x111 << "," << y111 << ")\n";
+    std::cout << "Put coordinates of point B:\n";
+    std::cin >> x222 >> y222;
+    std::cout << "Your coordinate 2 is:\t";
+    std::cout << "(" << x222 << "," << y222 << ")\n";
+
+    double midx = (x111 + x222) / 2;
+    double midy = (y111 + y222) / 2;
+
+    //find lenght
+    double llc = sqrt(pow());
+
+    //vextor
+    double foundx = (x111 + 2 * y222) / 3;
+    double foundy = (y111 + 2 * x111) / 3;
+
+    double lengthx = x333 - x111;
+    double lengthy = y333 - y333;
+
+    double acx =
 }
