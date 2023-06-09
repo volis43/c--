@@ -58,6 +58,7 @@ void addStudent(std::vector<Student>& students) {
         students.push_back(p);
         if (age >= 16 && age <= 70) {
             if (file.is_open()) {
+                file << "\n\t[\n";
                 file << "\n\t{\n";
                 file << "\t\t\"lname\": \"" << p.lname << "\",\n";
                 file << "\t\t\"fname\": \"" << p.fname << "\",\n";
@@ -66,7 +67,7 @@ void addStudent(std::vector<Student>& students) {
                 file << "\t\t\"email\": \"" << p.email << "\"\n";
                 file << "\t}";
                 if (i != n - 1) {
-                    file << ",";
+//                    file << ",";
                 }
             }
         } else {
