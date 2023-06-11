@@ -4,34 +4,6 @@
 #include <vector>
 #include <math.h>
 
-//class Coordinates {
-//public:
-//    float x1;
-//    float x2;
-//    float x3;
-//    float x4;
-//
-//    float y1;
-//    float y2;
-//    float y3;
-//    float y4;
-
-
-//    float x1o;
-//    float x2o;
-//    float x3o;
-//    float x4o;
-//
-//    float y1o;
-//    float y2o;
-//    float y3o;
-//    float y4o;
-//};
-
-
-
-
-
 int main() {
     int choice;
     std::cout << "Welcome to C++ menu choice\n";
@@ -183,12 +155,13 @@ if(choice == 4){
             std::cout << "Put coordinate B:\n";
             std::cin >> xd2 >> yd2;
             std::cout << "You put B: \t" << "(" << xd2 << "," << yd2 << ")\n";
-            std::cout << "Put Height";
+            std::cout << "Put Height\n";
             std::cin >> height;
             std::cout << "You put height\t" << height;
 
             double Mx = (xd1 + xd2) / 2;
             double My = (yd2 + yd2) / 2;
+
 
             // Находим боковую сторону той фигуры и угол!
             double formulaC = sqrt(pow(height, 2) + pow((xd2 - xd1) / 2, 2));
@@ -224,7 +197,7 @@ std::cout << "You put: \t" <<  "(" << xe << "," << ye << ")\n";
     double side3 = (sqrt(pow(xe - xe3, 2) + pow(ye - ye3, 2)));
 
     if(side + side2 <= side3 || side + side3 <= side2 || side2+side3 <= side  ){
-        std::cout << "does not exist";
+        std::cout << "does not exist\n";
         return 0;
     }
 
@@ -250,14 +223,14 @@ std::cout << "You put: \t" <<  "(" << xe << "," << ye << ")\n";
         }
 
 
-    if(aw < 90 && yw < 90 && t < 90){
-        std::cout << "it's Sharp - angled";
-    } else if (aw == 90 || yw == 90 || t == 90){
-        std::cout << "It's Rectangular";
-    } else {
-        std::cout << "It;s Obtuse angle";
+        if(aw < 90 && yw < 90 && t < 90){
+        std::cout << "it's Sharp - angled\n";
+            } else if (aw == 90 || yw == 90 || t == 90){
+        std::cout << "It's Rectangular\n";
+    }   else {
+        std::cout << "It;s Obtuse angle\n";
     }
-    //return main();
+    return main();
 }
 
 if(choice == 6){
@@ -265,123 +238,3 @@ if(choice == 6){
 }
 
 }
-
-
-
-
-
-//----------------------------------------------Trash
-
-//    int tas2() {
-//        double x11;
-//        double x22;
-//        double x33;
-//        double x44;
-//        //---------
-//        double y11;
-//        double y22;
-//        double y33;
-//        double y44;
-//
-//        std::cout << "Task 2!\n";
-//        std::cout << "put coordinate:\n";
-//        std::cin >> x11 >> y11;
-//        std::cout << "Your coordinate 1 is:\t";
-//        std::cout << "(" << x11 << "," << y11 << ")\n";
-//        std::cin >> x22 >> y22;
-//        std::cout << "Your coordinate 2 is:\t";
-//        std::cout << "(" << x22 << "," << y22 << ")\n";
-//        std::cin >> x33 >> y33;
-//        std::cout << "Your coordinate 3 is:\t";
-//        std::cout << "(" << x33 << "," << y33 << ")\n";
-//        std::cin >> x44 >> y44;
-//        std::cout << "Your coordinate 4 is:\t";
-//        std::cout << "(" << x44 << "," << y44 << ")\n";
-//
-//        double formulaX = (x11 + x22 + x33 + x44) / 4;
-//        double formulaY = (y11 + y22 + y33 + y44) / 4;
-//        std::cout << "Your answer is:" << "(" << formulaX << "," << formulaY << ")" << std::endl;
-//    }
-//
-
-//    int task3() {
-//        double x111;
-//        double x222;
-////    double x333;
-////    double x444;
-//        //---------
-//        double y111;
-//        double y222;
-////    double y333;
-////    double y444;
-//        std::cout << "Put coordinates of point A:\n";
-//        std::cin >> x111 >> y111;
-//        std::cout << "Your coordinate 1 is:\t";
-//        std::cout << "(" << x111 << "," << y111 << ")\n";
-//        std::cout << "Put coordinates of point B:\n";
-//        std::cin >> x222 >> y222;
-//        std::cout << "Your coordinate 2 is:\t";
-//        std::cout << "(" << x222 << "," << y222 << ")\n";
-//
-//        double midx = (x111 + x222) / 2;
-//        double midy = (y111 + y222) / 2;
-//
-//        double foundx = (x111 + 2 * y222) / 3;
-//        double foundy = (y111 + 2 * x111) / 3;
-//
-//        //find lenght
-//        double lengthx = x222 - x111;
-//        double lengthy = y222 - y222;
-//
-//        double llc = sqrt(pow(x222 - x111, 2) + pow(y222 - y111, 2)) / 2;
-//        double lla = midx * (2 / sqrt(3));
-//
-//        //vextor
-//
-//
-//        double acx = lengthy * llc * (sqrt(3) / 3);
-//        double acy = -lengthx * llc * (sqrt(3) / 3);
-//
-//        double xx = midx + acx;
-//        double xxy = midy + acy;
-//        std::cout << "coordinate of point C: (" << xx << ", " << xxy << ")";
-//
-//
-//    }
-//
-//
-//    int task4() {
-//        double xd1;
-//        double xd2;
-//        //---------
-//        double yd1;
-//        double yd2;
-//        double height;
-//
-//
-//        std::cout << "Put coordinate A\n";
-//        std::cin >> xd1 >> yd1;
-//        std::cout << "You put A: \t" << "(" << xd1 << "," << yd1 << ")\n";
-//        std::cout << "Put coordinate B:\n";
-//        std::cin >> xd2 >> yd2;
-//        std::cout << "You put B: \t" << "(" << xd2 << "," << yd2 << ")\n";
-//        std::cout << "Put Height";
-//        std::cin >> height;
-//        std::cout << "You put height\t" << height;
-//
-//        double Mx = (xd1 + xd2) / 2;
-//        double My = (yd2 + yd2) / 2;
-//
-//        // Находим боковую сторону той фигуры и угол!
-//        double formulaC = sqrt(pow(height, 2) + pow((xd2 - xd1) / 2, 2));
-//        double k = acos((formulaC / 2) / height);
-//
-//        //--------Координаты Вершин!
-//        double xd3 = Mx + (height / tan(k)) * ((yd2 - yd1) / 2, 2);
-//        double yd3 = My + (height / tan(k)) * ((xd2 - xd1) / 2, 2);
-//
-//
-//        std::cout << "C:" << "(" << xd3 << "," << yd3 << ")";
-//
-//
-//    };
