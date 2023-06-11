@@ -223,29 +223,41 @@ std::cout << "You put: \t" <<  "(" << xe << "," << ye << ")\n";
     double side2 = (sqrt(pow(xe3 - xe2, 2) + pow(ye3 - ye2, 2)));
     double side3 = (sqrt(pow(xe - xe3, 2) + pow(ye - ye3, 2)));
 
-    if( side == side2 || side == side3 || side2 == side3){
+    if(side + side2 <= side3 || side + side3 <= side2 || side2+side3 <= side  ){
+        std::cout << "does not exist";
+        return 0;
+    }
+
+
+    // вычисляет угол между двумя сторонами 180/π, чтобы получить значения угла в градусах
+
+    double aw = acos((side2 * side2 + side3 * side3 - side * side)/2*side2*side3) * 180/M_PI;
+    double yw = acos((side * side + side3 * side3 - side2 * side2)/2*side*side3) * 180/M_PI;
+    double t = 180 - aw - yw;
+
+    if( side == side2 && side == side3 )
+    {
         std::cout << "This is equilateral!\n";
-    } else if (side == side2 || side2 == side3 || side == side3) {
-        if(side != side2 && side2 != side3 && side != side3){
-            std::cout << "This is equilateral!\n";
+    }
+    else
+        if( side == side2 || side == side3 || side3 == side2)
+        {
+            std::cout << "It's triangle is isosceles!\n";
         }
-    } else {
-        std::cout << "---It's doesnt equilateral!\n";
-    }
+        else
+        {
+            std::cout << "This is a scalene triangle!\n";
+        }
 
-    if(xe != xe2 && xe != xe3 && xe2 != xe3 && ye != ye2 && ye != ye3 && ye2 != ye3){
-        std::cout << "This is a scalene triangle!\n";
-    } else {
-        std::cout << "---It's doesnt scalene triangle!\n";
-    }
 
-    if(xe == xe2 || xe == xe3 || xe2 == xe3 || ye == ye2 || ye == ye3 || ye2 == ye3){
-        std::cout << "It's triangle is isosceles \n";
+    if(aw < 90 && yw < 90 && t < 90){
+        std::cout << "it's Sharp - angled";
+    } else if (aw == 90 || yw == 90 || t == 90){
+        std::cout << "It's Rectangular";
     } else {
-        std::cout << "---It's doesnt isosceles \n";
+        std::cout << "It;s Obtuse angle";
     }
-
-    if(side > 90 )
+    //return main();
 }
 
 if(choice == 6){
