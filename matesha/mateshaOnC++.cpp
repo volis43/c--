@@ -135,11 +135,39 @@ int main() {
 
                 double xx = midx + acx;
                 double xxy = midy + acy;
-                std::cout << "coordinate of point C: (" << xx << ", " << xxy << ")" << "\n";
+//                std::cout << "coordinate of point C: (" << xx << ", " << xxy << ")" << "\n";
                 return main();
             }
 
 if(choice == 4){
+
+//
+//
+//            std::cout << "Put coordinate A\n";
+//            std::cin >> xd1 >> yd1;
+//            std::cout << "You put A: \t" << "(" << xd1 << "," << yd1 << ")\n";
+//            std::cout << "Put coordinate B:\n";
+//            std::cin >> xd2 >> yd2;
+//            std::cout << "You put B: \t" << "(" << xd2 << "," << yd2 << ")\n";
+//            std::cout << "Put Height\n";
+//            std::cin >> height;
+//            std::cout << "You put height\t" << height;
+//
+//            double Mx = (xd1 + xd2) / 2;
+//            double My = (yd2 + yd2) / 2;
+//
+//
+//            // Находим боковую сторону той фигуры и угол!
+//            double formulaC = sqrt(pow(height, 2) + pow((xd2 - xd1) / 2, 2));
+//            double k = acos((formulaC / 2) / height);
+//
+//            //--------Координаты Вершин!
+//            double xd3 = Mx + (height / tan(k)) * ((yd2 - yd1) / 2, 2);
+//            double yd3 = My + (height / tan(k)) * ((xd2 - xd1) / 2, 2);
+//
+//            std::cout << "\nanswer?" << "C:" << "(" << xd3 << "," << yd3 << ")" << "\n";
+
+
 
             double xd1;
             double xd2;
@@ -148,30 +176,31 @@ if(choice == 4){
             double yd2;
             double height;
 
-
-            std::cout << "Put coordinate A\n";
+            std::cout << "put coordinate 1!\n";
             std::cin >> xd1 >> yd1;
-            std::cout << "You put A: \t" << "(" << xd1 << "," << yd1 << ")\n";
-            std::cout << "Put coordinate B:\n";
+            std::cout << "You put coordinate 1:\t" << "(" << xd1 << ", " << yd1 << ")\n";
+            std::cout << "put coordinate 2!\n";
             std::cin >> xd2 >> yd2;
-            std::cout << "You put B: \t" << "(" << xd2 << "," << yd2 << ")\n";
-            std::cout << "Put Height\n";
+            std::cout << "You put coordinate 2:\t" << "(" << xd2 << ", " << yd2 << ")\n";
+            std::cout << "put height\n";
             std::cin >> height;
-            std::cout << "You put height\t" << height;
+            std::cout << "you put height:\t" << height << "\n";
 
-            double Mx = (xd1 + xd2) / 2;
-            double My = (yd2 + yd2) / 2;
+            double vitch = (xd2 - xd1) / (yd1 - yd2);
 
+            //Mid grounds
+            double mxm = (xd1 + xd2) / 2;
+            double mym = (yd1 + yd2) / 2;
 
-            // Находим боковую сторону той фигуры и угол!
-            double formulaC = sqrt(pow(height, 2) + pow((xd2 - xd1) / 2, 2));
-            double k = acos((formulaC / 2) / height);
+            //find distance from the middle of the base!!!
 
-            //--------Координаты Вершин!
-            double xd3 = Mx + (height / tan(k)) * ((yd2 - yd1) / 2, 2);
-            double yd3 = My + (height / tan(k)) * ((xd2 - xd1) / 2, 2);
+            double cd = height / sqrt(1 + vitch * vitch);
 
-            std::cout << "answer?" << "C:" << "(" << xd3 << "," << yd3 << ")" << "\n";
+            double xd3 = mxm + cd * (yd1 - yd2) / (2 * height);
+            double yd3 = mym + cd * (xd2 - xd1) / (2 * height);
+
+            std::cout << "Your answer is:\t" << "(" << round(xd3) << ", " << round(yd3) << ")\n" ;
+
             return main();
 
     }
@@ -223,13 +252,14 @@ std::cout << "You put: \t" <<  "(" << xe << "," << ye << ")\n";
         }
 
 
-        if(aw < 90 && yw < 90 && t < 90){
-        std::cout << "it's Sharp - angled\n";
-            } else if (aw == 90 || yw == 90 || t == 90){
+    if(aw < 90 && yw < 90 && t < 90){
+        std::cout << "It's Sharp-angled\n";
+    } else if (aw == 90 || yw == 90 || t == 90){
         std::cout << "It's Rectangular\n";
-    }   else {
-        std::cout << "It;s Obtuse angle\n";
+    } else {
+        std::cout << "It's Obtuse angle\n";
     }
+
     return main();
 }
 
