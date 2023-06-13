@@ -25,14 +25,21 @@ class Json {
 public:
     void readFromJson(std::string fileName) {}
     void saveToJson(std::string fileName) {}
+
 };
 
 void addStudent(std::vector<Student>& students) {
+
+
+
     int n;
     std::cout << "Enter the number of students to add: ";
     std::cin >> n;
 
     std::ofstream file("StudentJson.json", std::ios::app);
+
+
+
     if (file.is_open()) {
         // Add a comma if file is not empty
         if (file.tellp() != 0) {
@@ -40,7 +47,9 @@ void addStudent(std::vector<Student>& students) {
         }
     }
 
+                file << "\n\t[\n";
     for (int i = 0; i < n; i++) {
+
         std::string lname, fname, oname, email;
         int age;
         std::cout << "Enter Lname" << i + 1 << ": ";
@@ -56,9 +65,9 @@ void addStudent(std::vector<Student>& students) {
 
         Student p(lname, fname, oname, age, email);
         students.push_back(p);
+
         if (age >= 16 && age <= 70) {
             if (file.is_open()) {
-                file << "\n\t[\n";
                 file << "\n\t{\n";
                 file << "\t\t\"lname\": \"" << p.lname << "\",\n";
                 file << "\t\t\"fname\": \"" << p.fname << "\",\n";
@@ -66,19 +75,38 @@ void addStudent(std::vector<Student>& students) {
                 file << "\t\t\"age\": " << p.age << ",\n";
                 file << "\t\t\"email\": \"" << p.email << "\"\n";
                 file << "\t}";
+
                 if (i != n - 1) {
-//                    file << ",";
+                    file << ",";
                 }
             }
+
+            std::cout << "\t{\n";
+            std::cout << "\t\t\"lname\": \"" << p.lname << "\",\n";
+            std::cout << "\t\t\"fname\": \"" << p.fname << "\",\n";
+            std::cout << "\t\t\"oname\": \"" << p.oname << "\",\n";
+            std::cout << "\t\t\"age\": " << p.age << ",\n";
+            std::cout << "\t\t\"email\": \"" << p.email << "\"\n";
+            std::cout << "\t}";
+            std::cout << "\t]\n";
+
+//                file << "\n]\n";
         } else {
-            std::cout << "No, you are Error404" << std::endl;
+            std::cout << "Error student age 16-70!!!" << std::endl;
         }
+
+
+
     }
     if (file.is_open()) {
         file << "\n]\n";
         file.close();
     }
+
+
+
 }
+
 
 void editStudent(std::vector<Student>& students) {
     int index;
@@ -90,7 +118,11 @@ void editStudent(std::vector<Student>& students) {
         int age;
 
         std::cout << "Enter Lname: ";
-        std::cin >> lname;
+        std::getline(std::cin, lname);
+
+        if(lname.empty()){
+           std::cout << "Put";
+       }
         std::cout << "Enter FName: ";
         std::cin >> fname;
         std::cout << "Enter Oname: ";
@@ -106,10 +138,17 @@ void editStudent(std::vector<Student>& students) {
         students[index].age = age;
         students[index].email = email;
 
+
+
         std::ofstream file("StudentJson.json");
 
+
         if (file.is_open()) {
-            file << "\n[";
+//            file << "\n[";
+//            file << "\n[gh";
+
+
+
             for (int i = 0; i < students.size(); i++) {
                 const Student& p = students[i];
                 file << "\n\t{\n";
@@ -119,17 +158,30 @@ void editStudent(std::vector<Student>& students) {
                 file << "\t\t\"age\": " << p.age << ",\n";
                 file << "\t\t\"email\": \"" << p.email << "\"\n";
                 file << "\t}";
+
+                    std::cout << "\t{\n";
+                    std::cout << "\t\t\"lname\": \"" << p.lname << "\",\n";
+                    std::cout << "\t\t\"fname\": \"" << p.fname << "\",\n";
+                    std::cout << "\t\t\"oname\": \"" << p.oname << "\",\n";
+                    std::cout << "\t\t\"age\": " << p.age << ",\n";
+                    std::cout << "\t\t\"email\": \"" << p.email << "\"\n";
+                    std::cout << "\t}";
+                    std::cout << "\t]";
+
+//                file << "\n]";
                 if (i != students.size()-1) {
                     file << ",";
                 }
             }
-            file << "\n]";
+//            file << "\n]";
             file.close();
+
         }
         std::cout << "Student edited!" << std::endl;
     } else {
         std::cout << "Invalid index, please try again." << std::endl;
     }
+
 }
 
 
@@ -184,6 +236,7 @@ void editStudents(std::vector<Student>& students) {
     } else {
         std::cout << "Invalid index, please try again.\n";
     }
+
 }
 
 void deleteStudent(std::vector<Student>& students) {
@@ -207,18 +260,26 @@ void deleteStudent(std::vector<Student>& students) {
                 file << "\t\t\"age\": " << p.age << ",\n";
                 file << "\t\t\"email\": \"" << p.email << "\"\n";
                 file << "\t}";
+                file << "\t]";
+
+
                 if (i != students.size()-1) {
                     file << ",";
                 }
                 file << "\n";
             }
-            file << "]";
+//            file << "]";
             file.close();
+
+
         }
+
         std::cout << "Student deleted!\n";
     } else {
         std::cout << "Invalid index, please try again.\n";
     }
+
+
 }
 
 
@@ -227,13 +288,11 @@ void menu() {
 
 
     while (true) {
-        std::cout << "I LOVE C++!!! the code is written with love at 1:57\n";
         std::cout << "Welcome to the c++ menu! To select, choose what you want:\n";
         std::cout << "1. Add a student\n";
         std::cout << "2. Edit a student\n";
-        std::cout << "3. Delete a student ( work 1 )\n";
+        std::cout << "3. Delete a student (Report of students with 0 !)\n";
         std::cout << "4. Quit\n";
-        std::cout << "Dangerous! some lines were invented by chatgpt!! And some were taken from websites!";
         std::cout << "Enter your choice: ";
 
         int choice;
@@ -250,15 +309,19 @@ void menu() {
                 deleteStudent(students);
                 break;
             case 4:
+
                 return;
             default:
                 std::cout << "Invalid choice, please try again.\n";
         }
+
     }
+
 }
 
 int main() {
     menu();
+
     return 0;
 }
 
