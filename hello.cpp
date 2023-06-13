@@ -52,16 +52,40 @@ void addStudent(std::vector<Student>& students) {
 
         std::string lname, fname, oname, email;
         int age;
+
+
+        std::cin.ignore();
+
         std::cout << "Enter Lname" << i + 1 << ": ";
-        std::cin >> lname;
+        std::getline(std::cin,lname);
+
+            if(lname == "")
+        {
+            std::cout << "You have no right to miss this!\n";
+            return ;
+        }
+
+        std::cin.ignore();
         std::cout << "Enter FName" << i + 1 << ": ";
-        std::cin >> fname;
+        std::getline(std::cin,fname);
+
+        if(fname == ""){
+            std::cout << "You have no right to miss this!\n";
+            return;
+        }
+
+
         std::cout << "Enter Oname" << i + 1 << ": ";
-        std::cin >> oname;
+
+        std::getline(std::cin,oname);
+
         std::cout << "Enter age" << i + 1 << ": ";
         std::cin >> age;
+
+        std::cin.ignore();
         std::cout << "Enter Email" << i + 1 << ": ";
-        std::cin >> email;
+
+        std::getline(std::cin,email);
 
         Student p(lname, fname, oname, age, email);
         students.push_back(p);
@@ -76,6 +100,10 @@ void addStudent(std::vector<Student>& students) {
                 file << "\t\t\"email\": \"" << p.email << "\"\n";
                 file << "\t}";
 
+//    if (std::getline(std::cin,lname){
+//        std::cout << "No";
+//
+//    }
                 if (i != n - 1) {
                     file << ",";
                 }
@@ -98,6 +126,8 @@ void addStudent(std::vector<Student>& students) {
 
 
     }
+
+
     if (file.is_open()) {
         file << "\n]\n";
         file.close();
@@ -120,11 +150,10 @@ void editStudent(std::vector<Student>& students) {
         std::cout << "Enter Lname: ";
         std::getline(std::cin, lname);
 
-        if(lname.empty()){
-           std::cout << "Put";
-       }
+
         std::cout << "Enter FName: ";
         std::cin >> fname;
+
         std::cout << "Enter Oname: ";
         std::cin >> oname;
         std::cout << "Enter age: ";
