@@ -65,7 +65,7 @@ void addStudent(std::vector<Student>& students) {
             return ;
         }
 
-        std::cin.ignore();
+//        std::cin.ignore();
         std::cout << "Enter FName" << i + 1 << ": ";
         std::getline(std::cin,fname);
 
@@ -147,19 +147,31 @@ void editStudent(std::vector<Student>& students) {
         std::string lname, fname, oname, email;
         int age;
 
+        std::cin.ignore();
         std::cout << "Enter Lname: ";
         std::getline(std::cin, lname);
 
+        if(lname == "")
+        {
+            std::cout << "You have no right to miss this!\n";
+            return ;
+        }
+
 
         std::cout << "Enter FName: ";
-        std::cin >> fname;
+        std::getline(std::cin,fname);
+
+        if(fname == ""){
+            std::cout << "You have no right to miss this!\n";
+            return;
+        }
 
         std::cout << "Enter Oname: ";
-        std::cin >> oname;
+        std::getline(std::cin,oname);
         std::cout << "Enter age: ";
         std::cin >> age;
         std::cout << "Enter Email: ";
-        std::cin >> email;
+        std::getline(std::cin,email);
 
         students[index].lname = lname;
         students[index].fname = fname;
