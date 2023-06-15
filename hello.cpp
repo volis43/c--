@@ -4,7 +4,6 @@
 #include <vector>
 #include <fstream>
 
-
 class Student {
 public:
     std::string lname;
@@ -23,55 +22,102 @@ public:
 
 class Json {
 public:
-    void readFromJson(std::string fileName) {}
-    void saveToJson(std::string fileName) {}
+    void readFromJson(const std::string& fileName, std::vector<Student>& students) {
+        std::ifstream file(fileName);
+        if (file.is_open()) {
+            students.clear();
 
-};
+            char c;
+            std::string buffer;
 
+            while (file.get(c)) {
+                if (c == '{') {
+                    buffer = "{";
+                } else if (c == '}') {
+                    buffer += "}";
+                    Student s;
+                    int pos = buffer.find("\"lname\":");
 
+                    s.lname = buffer.substr(pos + 9, buffer.substr(pos + 9).find("\""));
+                    pos = buffer.find("\"fname\":");
+                    s.fname = buffer.substr(pos + 9, buffer.substr(pos + 9).find("\""));
+                    pos = buffer.find("\"oname\":");
+                    s.oname = buffer.substr(pos + 9, buffer.substr(pos + 9).find("\""));
+                    pos = buffer.find("\"age\":");
+                    s.age = std::stoi(buffer.substr(pos + 6, buffer.substr(pos + 6).find(",")));
+                    pos = buffer.find("\"email\":");
+                    s.email = buffer.substr(pos + 9, buffer.substr(pos + 9).find("\""));
 
-void addStudent(std::vector<Student>& students) {
-
-
-
-    int n;
-    std::cout << "Enter the number of students to add: ";
-    std::cin >> n;
-
-    std::ofstream file("StudentJson.json", std::ios::app);
-
-
-
-    if (file.is_open()) {
-        // Add a comma if file is not empty
-        if (file.tellp() != 0) {
-            file << ",\n";
+                    students.push_back(s);
+                    buffer = "";
+                } else if (buffer != "") {
+                    buffer += c;
+                }
+            }
+            file.close();
         }
     }
 
-                file << "\n\t[\n";
-    for (int i = 0; i < n; i++) {
+//    void saveToJson(std::string fileName) {}
+void saveToJson(std::string fileName, std::vector<Student> students){
+        std::ofstream file(fileName);
+        if(file.is_open()) {
+            file << "[";
 
+            for(int i = 0; i < students.size(); i++){
+                Student s = students.at(i);
+                file << "{";
+                file << "\"lname\":\"" << s.lname << "\",";
+                file << "\"fname\":\"" << s.fname << "\",";
+                file << "\"oname\":\"" << s.oname << "\",";
+                file << "\"age\":" << s.age << "\"";
+                file << "}";
+
+                if (i != students.size()-1) {
+                    file << ",";
+                }
+            }
+            file << "]";
+            file.close();
+        }
+    }
+};
+
+void loadStudent(std::string fileName, std::vector<Student>& students) {
+    Json json;
+    json.readFromJson(fileName, students);
+}
+
+
+void addStudent(std::string fileName, std::vector<Student>& students) {
+    int n;
+
+    std::cout << "Enter the number of students to add: ";
+    std::cin >> n;
+
+    std::ofstream outfile;
+    outfile.open(fileName, std::ios_base::app);
+    if (outfile.tellp() > 0) {
+        outfile << ",";
+    }
+
+    for (int i = 0; i < n; i++) {
         std::string lname, fname, oname, email;
         int age;
 
-
         std::cin.ignore();
+        std::cout << "Enter lName" << i + 1 << ": ";
+        std::getline(std::cin, lname);
 
-        std::cout << "Enter Lname" << i + 1 << ": ";
-        std::getline(std::cin,lname);
-
-            if(lname == "")
-        {
+        if (lname == "") {
             std::cout << "You have no right to miss this!\n";
-            return ;
+            return;
         }
 
-//        std::cin.ignore();
         std::cout << "Enter FName" << i + 1 << ": ";
-        std::getline(std::cin,fname);
+        std::getline(std::cin, fname);
 
-        if(fname == ""){
+        if (fname == "") {
             std::cout << "You have no right to miss this!\n";
             return;
         }
@@ -79,7 +125,7 @@ void addStudent(std::vector<Student>& students) {
 
         std::cout << "Enter Oname" << i + 1 << ": ";
 
-        std::getline(std::cin,oname);
+        std::getline(std::cin, oname);
 
         std::cout << "Enter age" << i + 1 << ": ";
         std::cin >> age;
@@ -87,59 +133,36 @@ void addStudent(std::vector<Student>& students) {
         std::cin.ignore();
         std::cout << "Enter Email" << i + 1 << ": ";
 
-        std::getline(std::cin,email);
+        std::getline(std::cin, email);
 
         Student p(lname, fname, oname, age, email);
-        students.push_back(p);
 
         if (age >= 16 && age <= 70) {
-            if (file.is_open()) {
-                file << "\n\t{\n";
-                file << "\t\t\"lname\": \"" << p.lname << "\",\n";
-                file << "\t\t\"fname\": \"" << p.fname << "\",\n";
-                file << "\t\t\"oname\": \"" << p.oname << "\",\n";
-                file << "\t\t\"age\": " << p.age << ",\n";
-                file << "\t\t\"email\": \"" << p.email << "\"\n";
-                file << "\t}";
+            students.push_back(p);
 
-//    if (std::getline(std::cin,lname){
-//        std::cout << "No";
-//
-//    }
-                if (i != n - 1) {
-                    file << ",";
-                }
+            outfile << "\n\t{\n";
+            outfile << "\t\t\"lname\": \"" << p.lname << "\",\n";
+            outfile << "\t\t\"fname\": \"" << p.fname << "\",\n";
+            outfile << "\t\t\"oname\": \"" << p.oname << "\",\n";
+            outfile << "\t\t\"age\": " << p.age << ",\n";
+            outfile << "\t\t\"email\": \"" << p.email << "\"\n";
+            outfile << "\t}";
+
+
+            if (i != n - 1) {
+                outfile << ",";
             }
-
-            std::cout << "\t{\n";
-            std::cout << "\t\t\"lname\": \"" << p.lname << "\",\n";
-            std::cout << "\t\t\"fname\": \"" << p.fname << "\",\n";
-            std::cout << "\t\t\"oname\": \"" << p.oname << "\",\n";
-            std::cout << "\t\t\"age\": " << p.age << ",\n";
-            std::cout << "\t\t\"email\": \"" << p.email << "\"\n";
-            std::cout << "\t}";
-            std::cout << "\t]\n";
-
-//                file << "\n]\n";
         } else {
             std::cout << "Error student age 16-70!!!" << std::endl;
         }
 
-
-
     }
-
-
-    if (file.is_open()) {
-        file << "\n]\n";
-        file.close();
-    }
-
-
-
+    outfile.close();
 }
 
-void editStudent(std::vector<Student>& students) {
+
+
+void editStudent(std::string fileName, std::vector<Student>& students) {
     int index;
     std::cout << "Enter the index of the student to edit: ";
     std::cin >> index;
@@ -152,27 +175,26 @@ void editStudent(std::vector<Student>& students) {
         std::cout << "Enter Lname: ";
         std::getline(std::cin, lname);
 
-        if(lname == "")
-        {
+        if (lname == "") {
             std::cout << "You have no right to miss this!\n";
-            return ;
+            return;
         }
 
 
         std::cout << "Enter FName: ";
-        std::getline(std::cin,fname);
+        std::getline(std::cin, fname);
 
-        if(fname == ""){
+        if (fname == "") {
             std::cout << "You have no right to miss this!\n";
             return;
         }
 
         std::cout << "Enter Oname: ";
-        std::getline(std::cin,oname);
+        std::getline(std::cin, oname);
         std::cout << "Enter age: ";
         std::cin >> age;
         std::cout << "Enter Email: ";
-        std::getline(std::cin,email);
+        std::getline(std::cin, email);
 
         students[index].lname = lname;
         students[index].fname = fname;
@@ -180,203 +202,99 @@ void editStudent(std::vector<Student>& students) {
         students[index].age = age;
         students[index].email = email;
 
-
-
-        std::ofstream file("StudentJson.json");
-
-
-
-
-
-        if (file.is_open()) {
-//            file << "\n[";
-//            file << "\n[gh";
-
-
-
-            for (int i = 0; i < students.size(); i++) {
-                const Student& p = students[i];
-                file << "\n\t{\n";
-                file << "\t\t\"lname\": \"" << p.lname << "\",\n";
-                file << "\t\t\"fname\": \"" << p.fname << "\",\n";
-                file << "\t\t\"oname\": \"" << p.oname << "\",\n";
-                file << "\t\t\"age\": " << p.age << ",\n";
-                file << "\t\t\"email\": \"" << p.email << "\"\n";
-                file << "\t}";
-
-                    std::cout << "\t{\n";
-                    std::cout << "\t\t\"lname\": \"" << p.lname << "\",\n";
-                    std::cout << "\t\t\"fname\": \"" << p.fname << "\",\n";
-                    std::cout << "\t\t\"oname\": \"" << p.oname << "\",\n";
-                    std::cout << "\t\t\"age\": " << p.age << ",\n";
-                    std::cout << "\t\t\"email\": \"" << p.email << "\"\n";
-                    std::cout << "\t}";
-                    std::cout << "\t]";
-
-//                file << "\n]";
-                if (i != students.size()-1) {
-                    file << ",";
-                }
-            }
-//            file << "\n]";
-            file.close();
-
-        }
-        std::cout << "Student edited!" << std::endl;
+        Json json;
+        json.saveToJson("StudentJson.json", students);
     } else {
-        std::cout << "Invalid index, please try again." << std::endl;
+        std::cout << "Nooo don't work ";
     }
-
 }
 
+//        std::ofstream file("StudentJson.json");
 
-void editStudents(std::vector<Student>& students) {
-    int index;
-    std::cout << "Enter the index of the student to edit: ";
-    std::cin >> index;
 
-    if (index >= 0 && index < students.size()) {
-        std::string lname, fname, oname, email;
-        int age;
 
-        std::cout << "Enter Lname: ";
-        std::cin >> lname;
-        std::cout << "Enter FName: ";
-        std::cin >> fname;
-        std::cout << "Enter Oname: ";
-        std::cin >> oname;
-        std::cout << "Enter age: ";
-        std::cin >> age;
-        std::cout << "Enter Email: ";
-        std::cin >> email;
+    void deleteStudent(std::vector<Student> &students) {
 
-        students[index].lname = lname;
-        students[index].fname = fname;
-        students[index].oname = oname;
-        students[index].age = age;
-        students[index].email = email;
+        int index;
+        std::cout << "Enter the index of the student to delete: ";
+        std::cin >> index;
 
-        std::ofstream file("StudentJson.json");
+        if (index >= 0 && index < students.size()) {
+            students.erase(students.begin() + index);
 
-        if (file.is_open()) {
-            file << "[\n";
-            for (int i = 0; i < students.size(); i++) {
-                const Student& p = students[i];
-                file << "\t{\n";
-                file << "\t\t\"lname\": \"" << p.lname << "\",\n";
-                file << "\t\t\"fname\": \"" << p.fname << "\",\n";
-                file << "\t\t\"oname\": \"" << p.oname << "\",\n";
-                file << "\t\t\"age\": " << p.age << ",\n";
-                file << "\t\t\"email\": \"" << p.email << "\"\n";
-                file << "\t}";
-                if (i != students.size()-1) {
-                    file << ",";
-                }
-                file << "\n";
-            }
-            file << "]";
-            file.close();
+//            std::ofstream file("StudentJson.json");
+
+            Json json;
+            json.saveToJson("studentJson.json", students);
+
+            std::cout << "Student seccest deleted!" << std::endl;
+
+
+        } else {
+            std::cout << "Nooo don't work" << std::endl;
+
         }
-        std::cout << "Student edited!\n";
-    } else {
-        std::cout << "Invalid index, please try again.\n";
     }
 
-}
+    void menu() {
+        std::vector<Student> students;
+        loadStudent("StudentJson.json", students);
 
-void deleteStudent(std::vector<Student>& students) {
+        while (true) {
+            std::cout << "Welcome to the c++ menu! To select, choose what you want:\n";
+            std::cout << "1. Add a student\n";
+            std::cout << "2. Edit a student\n";
+            std::cout << "3. Delete a student (Report of students with 0 !)\n";
+            std::cout << "4. Quit\n";
+            std::cout << "Enter your choice: ";
 
-    std::ifstream in("StudentJson.json");
+            int choice;
+            std::cin >> choice;
 
-    if (in.is_open()) {
+            switch (choice) {
+                case 1:
+                    addStudent(students);
+                    break;
+                case 2:
+                    editStudent(students);
+                    break;
+                case 3:
+                    deleteStudent(students);
+                    break;
+                case 4:
 
-
-
-            int index;
-            std::cout << "Enter the index of the student to delete: ";
-            std::cin >> index;
-
-            if (index >= 0 && index < students.size()) {
-                students.erase(students.begin() + index);
-
-                std::ofstream file("StudentJson.json");
-
-                if (file.is_open()) {
-                    file << "[\n";
-                    for (int i = 0; i < students.size(); i++) {
-                        const Student &p = students[i];
-                        file << "\t{\n";
-                        file << "\t\t\"lname\": \"" << p.lname << "\",\n";
-                        file << "\t\t\"fname\": \"" << p.fname << "\",\n";
-                        file << "\t\t\"oname\": \"" << p.oname << "\",\n";
-                        file << "\t\t\"age\": " << p.age << ",\n";
-                        file << "\t\t\"email\": \"" << p.email << "\"\n";
-                        file << "\t}";
-                        file << "\t]";
-
-
-                        if (i != students.size() - 1) {
-                            file << ",";
-                        }
-                        file << "\n";
-                    }
-//            file << "]";
-                    file.close();
-
-
-                }
-
-                std::cout << "Student deleted!\n";
-            } else {
-                std::cout << "Invalid index, please try again.\n";
+                    return;
+                default:
+                    std::cout << "Invalid choice, please try again.\n";
             }
 
-
-        }
-        in.close();
-    }
-
-void menu() {
-    std::vector<Student> students;
-
-
-    while (true) {
-        std::cout << "Welcome to the c++ menu! To select, choose what you want:\n";
-        std::cout << "1. Add a student\n";
-        std::cout << "2. Edit a student\n";
-        std::cout << "3. Delete a student (Report of students with 0 !)\n";
-        std::cout << "4. Quit\n";
-        std::cout << "Enter your choice: ";
-
-        int choice;
-        std::cin >> choice;
-
-        switch (choice) {
-            case 1:
-                addStudent(students);
-                break;
-            case 2:
-                editStudent(students);
-                break;
-            case 3:
-                deleteStudent(students);
-                break;
-            case 4:
-
-                return;
-            default:
-                std::cout << "Invalid choice, please try again.\n";
         }
 
     }
 
-}
+        int main() {
+            menu();
 
-int main() {
-    menu();
+            return 0;
+        }
 
-    return 0;
-}
+
+
+
+
+
+
+
+
+
+
+//    int main() {
+//        menu();
+//
+//        return 0;
+//    }
+
+
 
 
         //std::cin >> p.Lname;
