@@ -1,19 +1,8 @@
-
-
-	[
-
+[
 	{
-		"lname": "dddddd",
-		"fname": "dddddd",
+		"lname": "t",
+		"fname": "tytyt",
 		"oname": "",
-		"age": 16,
+		"age": 19,
 		"email": ""
-	},
-	{
-		"lname": "fffff",
-		"fname": "fffffffff",
-		"oname": "",
-		"age": 16,
-		"email": ""
-	}
-]
+	}	]

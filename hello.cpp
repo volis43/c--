@@ -28,6 +28,8 @@ public:
 
 };
 
+
+
 void addStudent(std::vector<Student>& students) {
 
 
@@ -137,7 +139,6 @@ void addStudent(std::vector<Student>& students) {
 
 }
 
-
 void editStudent(std::vector<Student>& students) {
     int index;
     std::cout << "Enter the index of the student to edit: ";
@@ -182,6 +183,9 @@ void editStudent(std::vector<Student>& students) {
 
 
         std::ofstream file("StudentJson.json");
+
+
+
 
 
         if (file.is_open()) {
@@ -281,48 +285,56 @@ void editStudents(std::vector<Student>& students) {
 }
 
 void deleteStudent(std::vector<Student>& students) {
-    int index;
-    std::cout << "Enter the index of the student to delete: ";
-    std::cin >> index;
 
-    if (index >= 0 && index < students.size()) {
-        students.erase(students.begin() + index);
+    std::ifstream in("StudentJson.json");
 
-        std::ofstream file("StudentJson.json");
-
-        if (file.is_open()) {
-            file << "[\n";
-            for (int i = 0; i < students.size(); i++) {
-                const Student& p = students[i];
-                file << "\t{\n";
-                file << "\t\t\"lname\": \"" << p.lname << "\",\n";
-                file << "\t\t\"fname\": \"" << p.fname << "\",\n";
-                file << "\t\t\"oname\": \"" << p.oname << "\",\n";
-                file << "\t\t\"age\": " << p.age << ",\n";
-                file << "\t\t\"email\": \"" << p.email << "\"\n";
-                file << "\t}";
-                file << "\t]";
+    if (in.is_open()) {
 
 
-                if (i != students.size()-1) {
-                    file << ",";
-                }
-                file << "\n";
-            }
+
+            int index;
+            std::cout << "Enter the index of the student to delete: ";
+            std::cin >> index;
+
+            if (index >= 0 && index < students.size()) {
+                students.erase(students.begin() + index);
+
+                std::ofstream file("StudentJson.json");
+
+                if (file.is_open()) {
+                    file << "[\n";
+                    for (int i = 0; i < students.size(); i++) {
+                        const Student &p = students[i];
+                        file << "\t{\n";
+                        file << "\t\t\"lname\": \"" << p.lname << "\",\n";
+                        file << "\t\t\"fname\": \"" << p.fname << "\",\n";
+                        file << "\t\t\"oname\": \"" << p.oname << "\",\n";
+                        file << "\t\t\"age\": " << p.age << ",\n";
+                        file << "\t\t\"email\": \"" << p.email << "\"\n";
+                        file << "\t}";
+                        file << "\t]";
+
+
+                        if (i != students.size() - 1) {
+                            file << ",";
+                        }
+                        file << "\n";
+                    }
 //            file << "]";
-            file.close();
+                    file.close();
+
+
+                }
+
+                std::cout << "Student deleted!\n";
+            } else {
+                std::cout << "Invalid index, please try again.\n";
+            }
 
 
         }
-
-        std::cout << "Student deleted!\n";
-    } else {
-        std::cout << "Invalid index, please try again.\n";
+        in.close();
     }
-
-
-}
-
 
 void menu() {
     std::vector<Student> students;
@@ -365,6 +377,7 @@ int main() {
 
     return 0;
 }
+
 
         //std::cin >> p.Lname;
 
