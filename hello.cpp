@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-
+#include <io.h>
 class Student {
 public:
     std::string lname;
@@ -46,6 +46,8 @@ public:
                     s.age = std::stoi(buffer.substr(pos+6, buffer.substr(pos+6).find(",")));
                     pos = buffer.find("\"email\":");
                     s.email = buffer.substr(pos+9, buffer.substr(pos+9).find("\""));
+
+
 
                     students.push_back(s);
                     buffer = "";
@@ -92,15 +94,17 @@ void loadStudent(std::string fileName, std::vector<Student>& students) {
 
 void addStudent(std::string fileName, std::vector<Student>& students) {
     int n;
-
-    std::cout << "Enter the number of students to add: "; std::cin >> n;
+    std::cout << "Enter the number of students to add: ";
+    std::cin >> n;
 
     std::ofstream outfile;
     outfile.open(fileName, std::ios_base::app);
     if (outfile.tellp() > 0) {
         outfile << ",";
+    } else {
+        outfile << "[";
     }
-    outfile << "\n\t[\n";
+
     for (int i = 0; i < n; i++) {
         std::string lname, fname, oname, email;
         int age;
@@ -133,22 +137,31 @@ void addStudent(std::string fileName, std::vector<Student>& students) {
         Student p(lname, fname, oname, age, email);
         if (age >= 16 && age <= 70) {
             students.push_back(p);
-            outfile << "{";
-            outfile << "\"lname\":\"" << p.lname << "\",";
-            outfile << "\"fname\":\"" << p.fname << "\",";
-            outfile << "\"oname\":\"" << p.oname << "\",";
-            outfile << "\"age\":" << p.age << ",";
-            outfile << "\"email\":\"" << p.email << "\"";
-            outfile << "}";
-
-            if (i != n-1) {
+            outfile << "\n\t{\n";
+            outfile << "\t\t\"lname\":\"" << p.lname << "\",\n";
+            outfile << "\t\t\"fname\":\"" << p.fname << "\",\n";
+            outfile << "\t\t\"oname\":\"" << p.oname << "\",\n";
+            outfile << "\t\t\"age\":" << p.age << ",\n";
+            outfile << "\t\t\"email\":\"" << p.email << "\"\n";
+            outfile << "\t}";
+            if (i != n - 1) {
                 outfile << ",";
             }
         } else {
             std::cout << "Error student age 16-70!!!" << std::endl;
         }
+        std::cout << "\n\t{\n";
+        std::cout << "\t\t\"lname\":\"" << p.lname << "\",\n";
+        std::cout << "\t\t\"fname\":\"" << p.fname << "\",\n";
+        std::cout << "\t\t\"oname\":\"" << p.oname << "\",\n";
+        std::cout << "\t\t\"age\":" << p.age << ",\n";
+        std::cout << "\t\t\"email\":\"" << p.email << "\"\n";
+        std::cout << "\t}";
     }
-    outfile << "\n\t]\n";
+
+    if (students.size() > 0) {
+        outfile << "\n]";
+    }
 
     outfile.close();
 }
@@ -196,7 +209,13 @@ void editStudent(std::string fileName, std::vector<Student>& students) {
         std::cout << "Invalid index, please try again." << std::endl;
     }
 
+
 }
+
+
+
+
+
 
 void deleteStudent(std::vector<Student>& students) {
     int index;
